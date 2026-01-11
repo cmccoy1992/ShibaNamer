@@ -1,10 +1,9 @@
-﻿
-
-namespace ShibaNamer
+﻿namespace ShibaNamer
 {
     using System;
     using System.Collections;
     using System.Data;
+    using System.Security.Cryptography;
 
     class NewShiba
     {
@@ -17,6 +16,7 @@ namespace ShibaNamer
 
             string ?shibaName = "";
             int ?shibaAge = 0;
+            string ?description = "";
 
             Typewriter("There's a new shiba on the block!\n");
             Typewriter("What is the name of the new shoober?\n");
@@ -47,18 +47,33 @@ namespace ShibaNamer
                         break;
                     }
             }
-            Typewriter($"How old is {shibaName}?\n");
-            try
-                {
-                    shibaAge = Int32.Parse(Console.ReadLine());
-                }
-            catch
-                {
-                    Random chooseAge = new Random();
-                    shibaAge = chooseAge.Next(1,8);
-                    Typewriter($"Invalid input. Automatically assigning age.\n");
-                }
-            Typewriter($"{shibaName}'s age is {shibaAge}.");
+            
+            valid = false;
+
+            while (!valid)
+            {
+                Typewriter($"How old is {shibaName}?\n");
+                try
+                    {
+                        shibaAge = Int32.Parse(Console.ReadLine());
+                        valid = true;
+                    }
+                catch (FormatException)
+                    {
+                        Typewriter($"Invalid input. Try again.\n");
+                    }
+            }
+            Typewriter($"{shibaName}'s age is {shibaAge}.\n");
+            Continue();
+            Typewriter($"Describe {shibaName} in a few words or a short sentence.\n");
+            description = Console.ReadLine();
+
+            Typewriter($"{shibaName} is a {shibaAge}-year-old silly shoober that can be described as '{description}.'\n");
+            Continue();
+            Typewriter("Thank you for creating a silly shiba.\n");
+            Continue();
+
+
 
         }
             static void Continue()                     //Asks for an input before continuing; deletes the Continue prompt and any inputs.
